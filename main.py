@@ -25,8 +25,6 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                   'Chrome/90.0.4430.212 Safari/537.36 '
 }
-conn_to_mysql = Database("localhost", 3306, "root", "root", "testdb").conn_mysql()
-cursor = conn_to_mysql.cursor(cursor=pymysql.cursors.DictCursor)
 
 
 def get_article_list(url):
@@ -94,6 +92,8 @@ def get_article_detail(article_url, author_name):
 
 
 def mysql_create_table(table_name):
+    conn_to_mysql = Database("localhost", 3306, "root", "root", "testdb").conn_mysql()
+    cursor = conn_to_mysql.cursor(cursor=pymysql.cursors.DictCursor)
     cursor.execute('drop table if exists %s' % table_name)
     sql = 'create table %s (' \
           'id int auto_increment primary key comment "id",' \
@@ -108,6 +108,8 @@ def mysql_create_table(table_name):
 
 
 def save_to_mysql(article_detail, table_name):
+    conn_to_mysql = Database("localhost", 3306, "root", "root", "testdb").conn_mysql()
+    cursor = conn_to_mysql.cursor(cursor=pymysql.cursors.DictCursor)
     sql = 'insert into %s' % table_name + ' values (null, %s, %s, %s, %s, %s ,%s, %s)'
     cursor.execute(sql, (
         article_detail[0], article_detail[1], article_detail[2], article_detail[3],
@@ -154,6 +156,9 @@ def get_pages(author_name, base_url):
 
 
 def spider_cnblogs():
+    # conn_to_mysql = Database("localhost", 3306, "root", "root", "testdb").conn_mysql()
+    # cursor = conn_to_mysql.cursor(cursor=pymysql.cursors.DictCursor)
+
     table_name = input('请输入导出的excel | sql表名：')
     if table_name is None:
         table_name = str(time.time())
@@ -170,7 +175,7 @@ def spider_cnblogs():
             end_page = '10'
 
     base_url = 'https://www.cnblogs.com/' + author_name + '/default.html?page={}'
-    mysql_create_table(table_name)
+    # mysql_create_table(table_name)
 
     workbook = xlwt.Workbook(encoding='utf-8')
     worksheet = workbook.add_sheet("sheet1")
@@ -206,8 +211,8 @@ def spider_cnblogs():
             save_to_excel(worksheet, article_detail, key + 1)
 
     print("save success")
-    cursor.close()
-    conn_to_mysql.close()
+    # cursor.close()
+    # conn_to_mysql.close()
     workbook.save(table_name + '.xls')
 
 
