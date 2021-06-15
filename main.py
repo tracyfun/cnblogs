@@ -196,7 +196,9 @@ def spider_cnblogs():
             print("article_url:", article_url)
             article_detail = get_article_detail(article_url, author_name)
             # print("article_detail:", article_detail)
-            save_to_mysql(article_detail, table_name)
+            # 保存到数据库
+            # save_to_mysql(article_detail, table_name)
+
             # 控制数据写入excel表格位置
             if index > 1:
                 key = sum_len - len(article_list) + key
