@@ -6,4 +6,6 @@
 ![Image text](https://github.com/tracyfun/cnblogs/blob/master/pic/20210611182433.png)
 
 打包命令
-pyinstaller -p D:\PycharmProjects\demo\venv\Lib\site-packages --distpath D:\PycharmProjects\exe -F main.py
+pyinstaller -p D:\PycharmProjects\demo\venv\Lib\site-packages -F main.py
+
+可执行文件在dist目录下，直接运行即可
